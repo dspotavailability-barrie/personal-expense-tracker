@@ -28,7 +28,7 @@ const API="https://sheets.googleapis.com/v4/spreadsheets/";
 let tokenClient,accessToken=null,transactions=[],sheetId=null,editingId=null;
 const $=id=>document.getElementById(id),money=n=>new Intl.NumberFormat("en-CA",{style:"currency",currency:"CAD"}).format(Number(n)||0);
 const today=()=>{const d=new Date();return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10)};
-const categories={Expense:["Housing","Groceries","Transportation","Dining","Shopping","Bills & Utilities","Health","Entertainment","Personal care","Travel","Education","Other"]};
+const categories={Expense:["Car","Housing","Groceries & Household","Dining","Shopping","Phone & Internet","Utilities","Insurance","Subscriptions","Entertainment","Travel","Personal care","Health","Other"]};
 function say(t){$("message").textContent=t}
 function authHeaders(){return {Authorization:"Bearer "+accessToken,"Content-Type":"application/json"}}
 async function api(url,options={}){const r=await fetch(url,{...options,headers:{...authHeaders(),...(options.headers||{})}});const d=await r.json().catch(()=>({}));if(!r.ok)throw Error(d.error?.message||"Google Sheets request failed ("+r.status+")");return d}
