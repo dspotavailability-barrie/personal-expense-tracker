@@ -5,7 +5,7 @@
 </style><script src="https://accounts.google.com/gsi/client" async defer></script></head>
 <body><header><h1>Personal Expense Tracker</h1><p>A simple, clear place to track where your money goes · CAD</p></header>
 <main>
-<section class="panel connect"><span class="status" id="status">Not connected</span><h2 style="margin-top:14px">Google Sheets connection</h2><p>Sign in with the Google account that has access to your personal spreadsheet. Your records are stored in your Google Sheet.</p><button id="signIn">Sign in with Google</button><button class="secondary hidden" id="reload">Refresh transactions</button><div class="notice" id="message" role="status" aria-live="polite">Connect your Google account to load your transactions.</div><p class="small">This website is publicly hosted. Google account permissions protect your spreadsheet. Never share your access token or OAuth client secret.</p></section>
+<section class="panel connect"><span class="status" id="status">Not connected</span><h2 style="margin-top:14px">Google Sheets connection</h2><button id="signIn">Sign in with Google</button><button class="secondary hidden" id="reload">Refresh transactions</button><div class="notice" id="message" role="status" aria-live="polite"></div></section>
 <section id="app" class="hidden">
 <div class="stats"><div class="stat primary"><span>Total expenses · selected month</span><strong id="totalExpense">$0.00</strong><span id="expenseCount">0 expenses recorded</span></div></div>
 <div class="grid"><section class="panel"><h2 id="formTitle">Add a transaction</h2><form id="transactionForm">
