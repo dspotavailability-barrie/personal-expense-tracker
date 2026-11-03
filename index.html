@@ -1,70 +1,56 @@
 <!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#172554">
-<title>Personal Expense Tracker</title>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#172554"><title>Personal Expense Tracker</title>
 <style>
-:root{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#172033;background:#f5f7fb}*{box-sizing:border-box}body{margin:0;min-height:100vh}
-header{background:#172554;color:#fff;padding:22px max(20px,calc((100% - 1050px)/2))}header h1{font-size:1.35rem;margin:0 0 5px}header p{margin:0;color:#cbd5e1;font-size:.92rem}
-main{max-width:760px;margin:32px auto;padding:0 18px}.panel{background:#fff;border:1px solid #e3e8f0;border-radius:16px;padding:24px;box-shadow:0 5px 20px #1725540a}
-.status{display:inline-block;background:#fff7df;color:#805500;border-radius:999px;padding:6px 11px;font-size:.8rem;font-weight:650}.status.ok{background:#e8f8ef;color:#17643a}
-h2{font-size:1.1rem;margin:16px 0 8px}p{line-height:1.55;color:#526078}button{border:0;border-radius:10px;padding:12px 18px;font-size:1rem;font-weight:650;cursor:pointer;background:#1d4ed8;color:white;margin:5px 6px 5px 0}button.secondary{background:#e8eefc;color:#1e3a8a}button:disabled{opacity:.55;cursor:wait}
-#message{margin-top:14px;font-size:.92rem;white-space:pre-wrap}.small{font-size:.84rem}footer{text-align:center;color:#7b8799;font-size:.8rem;padding:28px}#sheetCheck{display:none;margin-top:16px}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f1f5f9;padding:12px;border-radius:8px;font-size:.82rem;color:#334155}
-</style>
-<script src="https://accounts.google.com/gsi/client" async defer></script>
-</head>
-<body>
-<header><h1>Personal Expense Tracker</h1><p>Income, expenses and monthly insights · CAD</p></header>
-<main><section class="panel">
-<span class="status" id="status">Google sign-in not connected</span>
-<h2>Connect your Google account</h2>
-<p>Sign in with the Google account that owns your <strong>My Personal Expense Tracker</strong> spreadsheet.</p>
-<button id="signIn" type="button">Sign in with Google</button>
-<div id="sheetCheck"><h2>Connect your Transactions sheet</h2><p>After signing in, check that the tracker can read the first rows of your Google Sheet.</p><button class="secondary" id="checkSheet" type="button">Check Google Sheet connection</button></div>
-<p id="message" role="status" aria-live="polite">Your records stay in Google Sheets. They are not stored in this GitHub repository.</p>
-<pre id="preview" hidden></pre>
-<p class="small"><strong>Security:</strong> The website is publicly hosted, but Google controls access to your spreadsheet. Never publish your OAuth client secret or access token.</p>
-</section></main>
-<footer>Personal Expense Tracker · CAD</footer>
+:root{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#172033;background:#f4f6fb}*{box-sizing:border-box}body{margin:0}header{background:#172554;color:white;padding:22px max(18px,calc((100% - 1120px)/2))}header h1{margin:0 0 5px;font-size:1.45rem}header p{margin:0;color:#cbd5e1;font-size:.92rem}main{max-width:1120px;margin:25px auto;padding:0 16px}.panel,.stat{background:white;border:1px solid #e2e8f0;border-radius:15px;padding:18px;box-shadow:0 4px 18px #17255408}.connect{max-width:650px;margin:0 auto 18px}.status{display:inline-block;background:#fff4d6;color:#805500;border-radius:30px;padding:6px 11px;font-size:.8rem;font-weight:700}.status.ok{background:#e7f8ed;color:#17643a}h2{font-size:1.08rem;margin:0 0 14px}p{color:#58657a;line-height:1.5}button{border:0;border-radius:9px;padding:11px 15px;background:#1d4ed8;color:white;font-weight:650;cursor:pointer}button.secondary{background:#e9eefb;color:#1e3a8a}button.danger{background:#fee2e2;color:#991b1b}button:disabled{opacity:.5;cursor:wait}.small{font-size:.83rem}.hidden{display:none!important}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:15px 0}.stat span{display:block;color:#64748b;font-size:.85rem}.stat strong{display:block;font-size:1.35rem;margin-top:7px}.income{color:#15803d}.expense{color:#b91c1c}.grid{display:grid;grid-template-columns:minmax(300px, .9fr) minmax(0,1.5fr);gap:15px}.field{margin-bottom:12px}label{display:block;font-size:.84rem;font-weight:650;margin-bottom:5px;color:#475569}input,select{width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:8px;font:inherit;background:white;color:#172033}form .actions{display:flex;gap:8px;flex-wrap:wrap}.tablewrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.88rem;min-width:620px}th,td{text-align:left;padding:11px 8px;border-bottom:1px solid #edf0f5}th{color:#64748b;font-weight:650}td.amount{text-align:right;font-variant-numeric:tabular-nums}.rowactions{white-space:nowrap}.rowactions button{padding:7px 9px;font-size:.78rem;margin-right:3px}.toolbar{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:12px}.toolbar input{max-width:190px}.charts{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:15px}canvas{width:100%;height:220px;display:block}.chartnote{font-size:.8rem;color:#64748b}.notice{font-size:.9rem;white-space:pre-wrap;margin:12px 0;color:#475569}footer{text-align:center;color:#8792a3;padding:25px;font-size:.8rem}@media(max-width:760px){.grid,.charts{grid-template-columns:1fr}.stats{grid-template-columns:1fr}.stat strong{font-size:1.2rem}main{margin:16px auto}.panel{padding:15px}}
+</style><script src="https://accounts.google.com/gsi/client" async defer></script></head>
+<body><header><h1>Personal Expense Tracker</h1><p>Track your income, expenses and savings · CAD</p></header>
+<main>
+<section class="panel connect"><span class="status" id="status">Not connected</span><h2 style="margin-top:14px">Google Sheets connection</h2><p>Sign in with the Google account that has access to your personal spreadsheet. Your records are stored in your Google Sheet.</p><button id="signIn">Sign in with Google</button><button class="secondary hidden" id="reload">Refresh transactions</button><div class="notice" id="message" role="status" aria-live="polite">Connect your Google account to load your transactions.</div><p class="small">This website is publicly hosted. Google account permissions protect your spreadsheet. Never share your access token or OAuth client secret.</p></section>
+<section id="app" class="hidden">
+<div class="stats"><div class="stat"><span>Total income · selected month</span><strong class="income" id="totalIncome">$0.00</strong></div><div class="stat"><span>Total expenses · selected month</span><strong class="expense" id="totalExpense">$0.00</strong></div><div class="stat"><span>Net balance · selected month</span><strong id="netBalance">$0.00</strong></div></div>
+<div class="grid"><section class="panel"><h2 id="formTitle">Add a transaction</h2><form id="transactionForm">
+<div class="field"><label for="date">Date</label><input id="date" type="date" required></div>
+<div class="field"><label for="type">Type</label><select id="type"><option>Expense</option><option>Income</option></select></div>
+<div class="field"><label for="category">Category</label><select id="category" required></select></div>
+<div class="field"><label for="description">Description</label><input id="description" maxlength="100" placeholder="e.g. Groceries, salary" required></div>
+<div class="field"><label for="payment">Payment method</label><select id="payment"><option>Debit</option><option>Credit</option><option>Cash</option><option>Bank transfer</option><option>Other</option></select></div>
+<div class="field"><label for="amount">Amount (CAD)</label><input id="amount" type="number" min="0.01" step="0.01" placeholder="0.00" required></div>
+<div class="actions"><button id="saveBtn" type="submit">Add transaction</button><button type="button" class="secondary hidden" id="cancelEdit">Cancel edit</button></div>
+</form></section>
+<section class="panel"><div class="toolbar"><h2 style="margin:0">Transactions</h2><input id="month" type="month" aria-label="Select month"></div><div class="tablewrap"><table><thead><tr><th>Date</th><th>Type</th><th>Category / Description</th><th>Payment</th><th style="text-align:right">Amount</th><th>Actions</th></tr></thead><tbody id="transactionRows"><tr><td colspan="6">Loading…</td></tr></tbody></table></div></section></div>
+<div class="charts"><section class="panel"><h2>Income vs expenses</h2><canvas id="barChart" width="600" height="260"></canvas><div class="chartnote">Totals for the selected month</div></section><section class="panel"><h2>Expenses by category</h2><canvas id="categoryChart" width="600" height="260"></canvas><div class="chartnote" id="categoryLegend">Selected-month expense breakdown</div></section></div>
+</section></main><footer>Personal Expense Tracker · CAD</footer>
 <script>
 const CLIENT_ID="715778365541-5l0ruebufaagbjjdcl4qi3a9id5084l6.apps.googleusercontent.com";
 const SPREADSHEET_ID="1nqkrid5DCz9SUPUPgnEyHXNdD7m7VoUP7_zUvFKG6rI";
 const SCOPES="openid email profile https://www.googleapis.com/auth/spreadsheets";
-let tokenClient,accessToken=null;
-const signIn=document.getElementById("signIn"),message=document.getElementById("message"),status=document.getElementById("status");
-const sheetCheck=document.getElementById("sheetCheck"),checkSheet=document.getElementById("checkSheet"),preview=document.getElementById("preview");
-function showError(text){message.textContent=text;signIn.disabled=false;checkSheet.disabled=false}
-window.addEventListener("load",()=>{
- if(!window.google?.accounts?.oauth2){showError("Google sign-in could not load. Check your internet connection and refresh.");return}
- tokenClient=google.accounts.oauth2.initTokenClient({client_id:CLIENT_ID,scope:SCOPES,
- callback:response=>{
-  signIn.disabled=false;
-  if(response.error){status.textContent="Sign-in not completed";status.classList.remove("ok");showError("Google sign-in failed: "+response.error);return}
-  accessToken=response.access_token;status.textContent="Google account connected";status.classList.add("ok");
-  message.textContent="Google sign-in succeeded. Now test access to your Transactions sheet.";sheetCheck.style.display="block";signIn.textContent="Reconnect Google account";
- },
- error_callback:()=>{showError("The sign-in window was closed or blocked. Allow pop-ups and try again.")}
- });
-});
-signIn.addEventListener("click",()=>{
- if(!tokenClient){showError("Google sign-in is still loading. Refresh and try again.");return}
- signIn.disabled=true;message.textContent="Opening Google sign-in…";tokenClient.requestAccessToken({prompt:accessToken?"":"consent"});
-});
-checkSheet.addEventListener("click",async()=>{
- if(!accessToken){showError("Please sign in first.");return}
- checkSheet.disabled=true;message.textContent="Checking your Google Sheet…";preview.hidden=true;
- try{
-  const range=encodeURIComponent("'Transactions'!A1:G5");
-  const response=await fetch("https://sheets.googleapis.com/v4/spreadsheets/"+SPREADSHEET_ID+"/values/"+range,{headers:{Authorization:"Bearer "+accessToken}});
-  const data=await response.json();
-  if(!response.ok)throw new Error(data.error?.message||"Google Sheets API request failed ("+response.status+")");
-  const rows=data.values||[];
-  if(!rows.length)throw new Error("The Transactions tab was found, but it appears to be empty. Please check that row 1 contains your column headings.");
-  preview.textContent="Rows read from Transactions!A1:G5:\n"+rows.map(row=>row.join(" | ")).join("\n");
-  preview.hidden=false;status.textContent="Google Sheet connected";status.classList.add("ok");
-  message.textContent="Success! The tracker can read your Google Sheet. Check the column headings shown below before we activate transaction entry.";
- }catch(error){showError("Could not read the sheet: "+error.message+"\nCheck that the tab is named Transactions and that this Google account has access.");}
- finally{checkSheet.disabled=false}
-});
-</script>
-</body></html>
+const API="https://sheets.googleapis.com/v4/spreadsheets/";
+let tokenClient,accessToken=null,transactions=[],sheetId=null,editingId=null;
+const $=id=>document.getElementById(id),money=n=>new Intl.NumberFormat("en-CA",{style:"currency",currency:"CAD"}).format(Number(n)||0);
+const today=()=>{const d=new Date();return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10)};
+const categories={Expense:["Housing","Groceries","Transportation","Dining","Shopping","Bills & Utilities","Health","Entertainment","Personal care","Travel","Education","Other"],Income:["Salary","Business","Investment","Gift","Other"]};
+function say(t){$("message").textContent=t}
+function authHeaders(){return {Authorization:"Bearer "+accessToken,"Content-Type":"application/json"}}
+async function api(url,options={}){const r=await fetch(url,{...options,headers:{...authHeaders(),...(options.headers||{})}});const d=await r.json().catch(()=>({}));if(!r.ok)throw Error(d.error?.message||"Google Sheets request failed ("+r.status+")");return d}
+function setCategories(selected){const type=$("type").value; $("category").innerHTML=categories[type].map(c=>'<option>'+c+'</option>').join("");if(selected&&categories[type].includes(selected))$("category").value=selected}
+$("type").addEventListener("change",()=>setCategories());
+function parseRows(rows){return rows.slice(1).map((r,i)=>({id:r[0]||"legacy-"+(i+2),date:r[1]||"",type:r[2]||"Expense",category:r[3]||"Other",description:r[4]||"",payment:r[5]||"",amount:Number(r[6])||0,row:i+2})).filter(x=>x.date)}
+async function loadTransactions(){say("Loading transactions from Google Sheets…");const d=await api(API+SPREADSHEET_ID+"/values/"+encodeURIComponent("'Transactions'!A:G"));transactions=parseRows(d.values||[]);render();$("app").classList.remove("hidden");$("reload").classList.remove("hidden");$("status").textContent="Google Sheet connected";$("status").classList.add("ok");say("Connected. "+transactions.length+" transaction(s) loaded.");}
+function selected(){return $("month").value}
+function monthly(){return transactions.filter(t=>t.date.slice(0,7)===selected())}
+function render(){const list=monthly(),inc=list.filter(t=>t.type==="Income").reduce((s,t)=>s+t.amount,0),exp=list.filter(t=>t.type==="Expense").reduce((s,t)=>s+t.amount,0);$("totalIncome").textContent=money(inc);$("totalExpense").textContent=money(exp);$("netBalance").textContent=money(inc-exp);$("netBalance").className=inc-exp>=0?"income":"expense";
+const sorted=[...list].sort((a,b)=>b.date.localeCompare(a.date)||b.row-a.row);$("transactionRows").innerHTML=sorted.length?sorted.map(t=>'<tr><td>'+esc(t.date)+'</td><td class="'+(t.type==="Income"?"income":"expense")+'">'+esc(t.type)+'</td><td><strong>'+esc(t.category)+'</strong><br><span class="small">'+esc(t.description)+'</span></td><td>'+esc(t.payment)+'</td><td class="amount">'+money(t.amount)+'</td><td class="rowactions"><button class="secondary" data-edit="'+esc(t.id)+'">Edit</button><button class="danger" data-delete="'+esc(t.id)+'">Delete</button></td></tr>').join(""):'<tr><td colspan="6">No transactions for this month yet.</td></tr>';
+drawCharts(inc,exp,list.filter(t=>t.type==="Expense"));}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function drawCharts(inc,exp,expenses){const c=$("barChart"),x=c.getContext("2d");x.clearRect(0,0,c.width,c.height);const max=Math.max(inc,exp,1)*1.2,base=220;x.strokeStyle="#cbd5e1";x.beginPath();x.moveTo(35,base);x.lineTo(570,base);x.stroke();[[inc,150,"Income","#16a34a"],[exp,370,"Expenses","#dc2626"]].forEach(([v,left,label,color])=>{const h=v/max*175;x.fillStyle=color;x.fillRect(left,base-h,100,h);x.fillStyle="#334155";x.textAlign="center";x.font="15px sans-serif";x.fillText(money(v),left+50,Math.max(22,base-h-9));x.fillText(label,left+50,245)});const sums={};expenses.forEach(t=>sums[t.category]=(sums[t.category]||0)+t.amount);const entries=Object.entries(sums).sort((a,b)=>b[1]-a[1]);const cc=$("categoryChart"),g=cc.getContext("2d");g.clearRect(0,0,cc.width,cc.height);if(!entries.length){g.fillStyle="#64748b";g.font="17px sans-serif";g.fillText("No expense data this month",20,120);$("categoryLegend").textContent="No expenses recorded";return}const total=entries.reduce((s,e)=>s+e[1],0),colors=["#2563eb","#16a34a","#f59e0b","#9333ea","#db2777","#0891b2","#ea580c","#64748b"];let start=-Math.PI/2;entries.slice(0,8).forEach(([name,val],i)=>{const end=start+val/total*Math.PI*2;g.beginPath();g.moveTo(145,125);g.arc(145,125,95,start,end);g.closePath();g.fillStyle=colors[i];g.fill();start=end});$("categoryLegend").textContent=entries.slice(0,6).map((e,i)=>e[0]+": "+money(e[1])).join(" · ");}
+function resetForm(){editingId=null;$("transactionForm").reset();$("date").value=today();$("type").value="Expense";setCategories();$("formTitle").textContent="Add a transaction";$("saveBtn").textContent="Add transaction";$("cancelEdit").classList.add("hidden")}
+function editTransaction(id){const t=transactions.find(x=>x.id===id);if(!t)return;editingId=id;$("date").value=t.date;$("type").value=t.type;setCategories(t.category);$("description").value=t.description;$("payment").value=t.payment;$("amount").value=t.amount;$("formTitle").textContent="Edit transaction";$("saveBtn").textContent="Save changes";$("cancelEdit").classList.remove("hidden");window.scrollTo({top:0,behavior:"smooth"})}
+async function saveTransaction(e){e.preventDefault();const data={date:$("date").value,type:$("type").value,category:$("category").value,description:$("description").value.trim(),payment:$("payment").value,amount:Number($("amount").value)};if(!data.date||!data.description||!Number.isFinite(data.amount)||data.amount<=0){say("Enter a date, description and amount greater than zero.");return}const btn=$("saveBtn");btn.disabled=true;try{if(editingId){const t=transactions.find(x=>x.id===editingId);if(!t)throw Error("Transaction not found. Refresh and try again.");await api(API+SPREADSHEET_ID+"/values/"+encodeURIComponent("'Transactions'!B"+t.row+":G"+t.row)+"?valueInputOption=USER_ENTERED",{method:"PUT",body:JSON.stringify({values:[[data.date,data.type,data.category,data.description,data.payment,data.amount]]})});}else{const id=crypto.randomUUID();await api(API+SPREADSHEET_ID+"/values/"+encodeURIComponent("'Transactions'!A:G")+":append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS",{method:"POST",body:JSON.stringify({values:[[id,data.date,data.type,data.category,data.description,data.payment,data.amount]]})});}resetForm();await loadTransactions();}catch(err){say("Could not save transaction: "+err.message)}finally{btn.disabled=false}}
+async function deleteTransaction(id){if(!confirm("Delete this transaction permanently?"))return;try{const t=transactions.find(x=>x.id===id);if(!t)throw Error("Transaction not found.");if(!sheetId){const meta=await api(API+SPREADSHEET_ID+"?fields=sheets.properties");sheetId=meta.sheets?.find(s=>s.properties.title==="Transactions")?.properties.sheetId}if(sheetId===null||sheetId===undefined)throw Error("Could not identify the Transactions tab.");await api(API+SPREADSHEET_ID+":batchUpdate",{method:"POST",body:JSON.stringify({requests:[{deleteDimension:{range:{sheetId,dimension:"ROWS",startIndex:t.row-1,endIndex:t.row}}}]})});await loadTransactions()}catch(err){say("Could not delete transaction: "+err.message)}}
+$("transactionRows").addEventListener("click",e=>{const edit=e.target.dataset.edit,del=e.target.dataset.delete;if(edit)editTransaction(edit);if(del)deleteTransaction(del)});
+$("transactionForm").addEventListener("submit",saveTransaction);$("cancelEdit").addEventListener("click",resetForm);$("month").addEventListener("change",render);$("reload").addEventListener("click",()=>loadTransactions().catch(e=>say(e.message)));
+$("date").value=today();$("month").value=today().slice(0,7);setCategories();
+function connect(){if(!tokenClient){say("Google sign-in is loading. Refresh and try again.");return}tokenClient.requestAccessToken({prompt:accessToken?"":"consent"})}
+$("signIn").addEventListener("click",connect);
+window.addEventListener("load",()=>{if(!window.google?.accounts?.oauth2){say("Google sign-in could not load. Refresh this page.");return}tokenClient=google.accounts.oauth2.initTokenClient({client_id:CLIENT_ID,scope:SCOPES,callback:async r=>{if(r.error){say("Google sign-in failed: "+r.error);return}accessToken=r.access_token;$("status").textContent="Google account connected";$("status").classList.add("ok");$("signIn").textContent="Reconnect Google";try{const meta=await api(API+SPREADSHEET_ID+"?fields=sheets.properties");sheetId=meta.sheets?.find(s=>s.properties.title==="Transactions")?.properties.sheetId;if(sheetId===undefined)throw Error("A tab named Transactions was not found.");await loadTransactions()}catch(e){say("Connection issue: "+e.message)}}})});
+</script></body></html>
